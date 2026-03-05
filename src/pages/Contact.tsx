@@ -9,14 +9,32 @@ export default function Contact() {
     message: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would send this to an API
-    console.log('Form submitted:', formState);
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 5000);
-    setFormState({ name: '', email: '', message: '' });
+    setIsLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.error || 'Something went wrong. Please try again.');
+        return;
+      }
+      setIsSubmitted(true);
+      setTimeout(() => setIsSubmitted(false), 5000);
+      setFormState({ name: '', email: '', message: '' });
+    } catch {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -91,55 +109,87 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-surface border border-white/5 p-8 rounded-2xl">
-            <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
+          <div className="relative bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 p-8 rounded-2xl overflow-hidden">
+            {/* Subtle glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-violet-600/10 blur-[80px] rounded-full pointer-events-none" />
+
+            <h3 className="text-2xl font-bold mb-2 relative z-10">Send a Message</h3>
+            <p className="text-white/40 text-sm mb-8 relative z-10">We'll get back to you within 24 hours.</p>
+
             {isSubmitted ? (
-              <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-lg">
-                Thank you for your message! We will get back to you shortly.
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center py-12 gap-4 text-center"
+              >
+                <div className="w-14 h-14 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-emerald-400 font-medium">Message sent!</p>
+                <p className="text-white/50 text-sm">We'll be in touch shortly.</p>
+              </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-2">Name</label>
+              <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+                <div className="group">
+                  <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-widest text-white/40 mb-2 group-focus-within:text-violet-400 transition-colors">
+                    Name
+                  </label>
                   <input
                     type="text"
                     id="name"
                     required
                     value={formState.name}
                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                    className="w-full bg-bg border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-colors"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-violet-500/60 focus:bg-white/[0.05] transition-all duration-200"
                     placeholder="John Doe"
                   />
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-white/70 mb-2">Email</label>
+                <div className="group">
+                  <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-widest text-white/40 mb-2 group-focus-within:text-violet-400 transition-colors">
+                    Email
+                  </label>
                   <input
                     type="email"
                     id="email"
                     required
                     value={formState.email}
                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                    className="w-full bg-bg border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-colors"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-violet-500/60 focus:bg-white/[0.05] transition-all duration-200"
                     placeholder="john@example.com"
                   />
                 </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-white/70 mb-2">Message</label>
+                <div className="group">
+                  <label htmlFor="message" className="block text-xs font-semibold uppercase tracking-widest text-white/40 mb-2 group-focus-within:text-violet-400 transition-colors">
+                    Message
+                  </label>
                   <textarea
                     id="message"
                     required
                     rows={5}
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                    className="w-full bg-bg border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-colors resize-none"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-violet-500/60 focus:bg-white/[0.05] transition-all duration-200 resize-none"
                     placeholder="Tell us about your project..."
                   />
                 </div>
+                {error && (
+                  <p className="text-red-400 text-sm">{error}</p>
+                )}
                 <button
                   type="submit"
-                  className="w-full bg-white text-black font-medium py-3 rounded-lg hover:bg-white/90 transition-colors"
+                  disabled={isLoading}
+                  className="relative w-full overflow-hidden bg-white text-black font-semibold py-3.5 rounded-xl hover:bg-white/90 transition-colors group disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    {isLoading ? 'Sending...' : 'Send Message'}
+                    {!isLoading && (
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    )}
+                  </span>
                 </button>
               </form>
             )}

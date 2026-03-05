@@ -111,14 +111,121 @@ export default function Services() {
         </div>
       </section>
 
+      {/* What's Included */}
+      <section className="py-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Everything You Get</h2>
+            <p className="text-white/60 max-w-xl mx-auto">Every project is custom-quoted. Here's what we bring to the table.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                label: 'Starter',
+                accent: 'border-white/10',
+                dot: 'bg-violet-400',
+                items: [
+                  'Up to 3 custom pages',
+                  'Mobile-responsive layout',
+                  'Contact form integration',
+                  'Basic on-page SEO',
+                  'Fast delivery',
+                ],
+              },
+              {
+                label: 'Growth',
+                accent: 'border-violet-500/30',
+                dot: 'bg-violet-400',
+                featured: true,
+                items: [
+                  'Multi-page site (up to 8)',
+                  'Custom UI/UX design',
+                  'Smooth animations & micro-interactions',
+                  'CMS / blog integration',
+                  'Advanced SEO & structured data',
+                  'Performance optimization',
+                  'Multiple revision rounds',
+                  '30-day post-launch support',
+                ],
+              },
+              {
+                label: 'Platform',
+                accent: 'border-fuchsia-500/20',
+                dot: 'bg-fuchsia-400',
+                items: [
+                  'Unlimited pages',
+                  'Full-stack development',
+                  'Custom API & database design',
+                  'E-commerce & payment integration',
+                  'User authentication & dashboards',
+                  'AI-powered features',
+                  'Advanced motion & 3D effects',
+                  'Analytics & tracking setup',
+                  'Priority support & SLA',
+                  'Ongoing maintenance retainer',
+                ],
+              },
+            ].map((tier, i) => (
+              <motion.div
+                key={tier.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`relative rounded-2xl p-8 flex flex-col border ${
+                  tier.featured
+                    ? 'bg-gradient-to-b from-violet-600/20 to-surface shadow-[0_0_40px_rgba(139,92,246,0.15)]'
+                    : 'bg-surface'
+                } ${tier.accent}`}
+              >
+                {tier.featured && (
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-xs font-semibold px-4 py-1 rounded-full whitespace-nowrap">
+                    Most Requested
+                  </div>
+                )}
+                <h3 className="text-lg font-semibold mb-6">{tier.label}</h3>
+                <ul className="space-y-3 flex-grow mb-10">
+                  {tier.items.map((f) => (
+                    <li key={f} className="flex items-center gap-3 text-sm text-white/70">
+                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${tier.dot}`} />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/quote"
+                  className={`block text-center px-6 py-3 rounded-full text-sm font-medium transition-colors ${
+                    tier.featured
+                      ? 'bg-white text-black hover:bg-white/90'
+                      : 'border border-white/10 text-white hover:bg-white/5'
+                  }`}
+                >
+                  Get a Free Quote
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          <p className="text-center text-white/30 text-sm mt-10">
+            Every project is scoped and priced individually.{' '}
+            <Link to="/quote" className="text-violet-400 hover:text-violet-300 transition-colors underline underline-offset-2">
+              Tell us about yours
+            </Link>{' '}
+            and we'll send a custom proposal within 24 hours.
+          </p>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-24 text-center">
-        <h2 className="text-3xl font-bold mb-6">Need a custom solution?</h2>
+        <h2 className="text-3xl font-bold mb-6">Not sure what you need?</h2>
+        <p className="text-white/50 mb-8 max-w-md mx-auto">Fill out a quick brief and we'll recommend the right solution for your business.</p>
         <Link
-          to="/contact"
+          to="/quote"
           className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full text-sm font-medium transition-transform hover:scale-105"
         >
-          Let's Talk
+          Get a Free Quote
         </Link>
       </section>
     </div>

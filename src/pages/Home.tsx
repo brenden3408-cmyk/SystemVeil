@@ -1,17 +1,14 @@
-import { ArrowRight, Code2, Cpu, Globe, Layers, ShieldCheck, Zap } from 'lucide-react';
+import { ArrowRight, Code2, Globe, Layers, ShieldCheck, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { BackgroundCircles } from '../components/ui/background-circles';
 
 export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] z-0" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[120px] z-0" />
-        
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
+      <BackgroundCircles variant="secondary" className="min-h-[90vh] h-auto">
+        <div className="max-w-7xl mx-auto px-6 text-center flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -21,7 +18,7 @@ export default function Home() {
             <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
             Mississauga Web Design & Development
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -30,7 +27,7 @@ export default function Home() {
           >
             Engineering <span className="text-gradient-primary">Digital</span> Experiences
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,7 +36,7 @@ export default function Home() {
           >
             SystemVeil builds modern, scalable, and high-performance web applications. We transform complex requirements into elegant, user-centric solutions.
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -47,10 +44,10 @@ export default function Home() {
             className="flex flex-col sm:flex-row items-center gap-4"
           >
             <Link
-              to="/contact"
+              to="/quote"
               className="group flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full text-sm font-medium transition-transform hover:scale-105 w-full sm:w-auto justify-center"
             >
-              Start Your Project
+              Get a Free Quote
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
@@ -61,7 +58,7 @@ export default function Home() {
             </Link>
           </motion.div>
         </div>
-      </section>
+      </BackgroundCircles>
 
       {/* Features Grid */}
       <section className="py-24 bg-surface relative">
@@ -171,19 +168,14 @@ export default function Home() {
           <p className="text-xl text-white/70 mb-10 max-w-2xl mx-auto">
             Let's discuss how SystemVeil can engineer a solution tailored to your specific business goals.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex items-center justify-center">
             <Link
-              to="/contact"
-              className="bg-white text-black px-8 py-4 rounded-full text-sm font-medium transition-transform hover:scale-105 w-full sm:w-auto"
+              to="/quote"
+              className="group flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full text-sm font-medium transition-transform hover:scale-105"
             >
-              Contact Us Today
+              Get a Free Quote
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <a
-              href="mailto:Brenden@systemveil.com"
-              className="bg-white/10 hover:bg-white/20 border border-white/10 text-white px-8 py-4 rounded-full text-sm font-medium transition-colors w-full sm:w-auto"
-            >
-              Email Brenden
-            </a>
           </div>
         </div>
       </section>
