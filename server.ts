@@ -234,14 +234,14 @@ app.post('/api/quote', submitLimiter, async (req, res) => {
   try {
     await Promise.all([
       resend.emails.send({
-        from: 'SystemVeil Quotes <onboarding@resend.dev>',
+        from: 'SystemVeil Quotes <noreply@systemveil.com>',
         to: recipientEmail,
         replyTo: f.email,
         subject: `New Quote Request — ${name} (${business || 'No business'})`,
         html,
       }),
       resend.emails.send({
-        from: 'SystemVeil <onboarding@resend.dev>',
+        from: 'SystemVeil <noreply@systemveil.com>',
         to: f.email,
         subject: 'We received your quote request — SystemVeil',
         html: confirmationHtml,
@@ -295,7 +295,7 @@ app.post('/api/contact', submitLimiter, async (req, res) => {
 
   try {
     await resend.emails.send({
-      from: 'SystemVeil Contact <onboarding@resend.dev>',
+      from: 'SystemVeil Contact <noreply@systemveil.com>',
       to: recipientEmail,
       replyTo: f.email,
       subject: `New Message from ${name}`,
