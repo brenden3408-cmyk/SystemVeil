@@ -31,8 +31,22 @@ app.use(helmet({
 }));
 
 // CORS — restrict to your app's origin
+const allowedOrigins = [
+  'https://systemveil.com',
+  'https://www.systemveil.com',
+  process.env.APP_URL,
+  'http://localhost:3000',
+  'http://localhost:5173',
+].filter(Boolean) as string[];
+
 app.use(cors({
-  origin: process.env.APP_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 }));
 
 app.use(express.json());
